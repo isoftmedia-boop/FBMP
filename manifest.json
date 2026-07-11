@@ -1,18 +1,67 @@
 {
   "manifest_version": 3,
-  "name": "Fast4FBMP",
-  "version": "2.0",
-  "description": "Scrape, manage and relist your Facebook Marketplace published listings.",
-  "permissions": ["activeTab","scripting","storage","cookies","notifications","alarms","sidePanel"],
-  "host_permissions": ["https://www.facebook.com/*","https://tools.joinflyp.com/*"],
-  "background": {"service_worker": "background.js"},
-  "side_panel": {"default_path": "sidepanel/panel.html"},
-  "action": {"default_title": "Fast4FBMP", "default_icon": {"128": "images/icon128.png"}},
-  "icons": {"16": "images/icon16.png","48": "images/icon48.png","128": "images/icon128.png"},
-  "content_scripts": [{
-    "matches": ["https://www.facebook.com/marketplace/*","https://tools.joinflyp.com/*"],
-    "js": ["lib/fs_local.js","content/photo_inject.js","content/scrape_published.js"],
-    "run_at": "document_idle",
-    "all_frames": false
-  }]
+  "name": "Facebook-MP",
+  "version": "0.3.0",
+  "description": "Local-first Facebook Marketplace tool. Import from Flyp, infer categories, and bulk-create/relist FB listings with humanized timing and scheduling.",
+  "action": {
+    "default_title": "Facebook-MP"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "tabs",
+    "scripting",
+    "storage",
+    "alarms",
+    "unlimitedStorage",
+    "sidePanel",
+    "notifications",
+    "cookies"
+  ],
+  "host_permissions": [
+    "https://www.facebook.com/*",
+    "https://m.facebook.com/*",
+    "https://*.fbcdn.net/*",
+    "https://tools.joinflyp.com/*",
+    "https://*.googleapis.com/*",
+    "https://*/*"
+  ],
+  "icons": {
+    "16": "images/icon16.jpg",
+    "48": "images/icon48.jpg",
+    "128": "images/icon128.jpg"
+  },
+  "action": {
+    "default_title": "Facebook-MP"
+  },
+  "side_panel": {
+    "default_path": "sidepanel/panel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.facebook.com/marketplace/*"
+      ],
+      "js": [
+        "content/humanize.js",
+        "content/categories.js",
+        "content/scrape_published.js",
+        "content/photo_inject.js",
+        "content/create_listing.js",
+        "content/content_main.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "https://www.facebook.com/*"
+      ],
+      "resources": [
+        "content/page_helper.js"
+      ]
+    }
+  ]
 }
